@@ -1,0 +1,72 @@
+# .dockerignore - Exclude unnecessary files from Docker build context
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# Docker files
+docker/validation/logs/
+docker/validation/results.jsonl
+.dockerignore
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if any)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.egg-info/
+
+# .NET build outputs
+bin/
+obj/
+*.user
+*.suo
+
+# Temporary files
+*.tmp
+*.log
+.tmp/
+tmp/
+
+# Documentation that's not needed in container
+docs/
+*.md
+!README.md
+
+# CI/CD files
+.github/
+.gitlab-ci.yml
+azure-pipelines.yml
+
+# Environment files (secrets should be provided at runtime)
+.env
+.env.local
+.env.*.local
+
+# Test outputs
+coverage/
+.coverage
+htmlcov/
+
+# Large binary files
+*.zip
+*.tar.gz
+*.iso
+*.dmg

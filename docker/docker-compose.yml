@@ -1,0 +1,92 @@
+# Docker Compose configuration for AI Workflow Agents
+# Optional convenience wrapper for local development
+# For production, use docker run commands directly (see docker/README.md)
+
+version: '3.8'
+
+services:
+  workflow-agent:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: workflow-agent:latest
+    container_name: workflow-agent
+    
+    # Environment configuration
+    # Option 1: Load from .env file
+    env_file:
+      - .env
+    
+    # Option 2: Inline environment variables
+    environment:
+      # Workflow configuration
+      - WORKFLOW_NAME=${WORKFLOW_NAME:-project-setup-upgraded}
+      - WORKFLOW_CLIENT=${WORKFLOW_CLIENT:-claude}
+      
+      # Authentication (use .env file or secrets instead)
+      # - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      # - OPENAI_API_KEY=${OPENAI_API_KEY}
+      
+      # Optional settings
+      - LOG_FORMAT=${LOG_FORMAT:-json}
+      - DEBUG=${DEBUG:-false}
+      - EXTRA_PROMPT_ARGS=${EXTRA_PROMPT_ARGS:-}
+    
+    # Secrets (recommended for sensitive data)
+    secrets:
+      - anthropic_api_key
+      # - openai_api_key  # Uncomment if using OpenCode
+    
+    # Workspace mount (read-only by default for safety)
+    volumes:
+      - ..:/workspace:ro
+      # For local development with write access, use:
+      # - ..:/workspace:rw
+      
+      # Optional: Mount pre-authenticated configs
+      # - ~/.config/anthropic:/home/vscode/.config/anthropic:ro
+      # - ~/.config/opencode:/home/vscode/.config/opencode:ro
+    
+    # Network configuration
+    # network_mode: bridge  # Default
+    
+    # Resource limits (optional)
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '2'
+    #       memory: 4G
+    #     reservations:
+    #       cpus: '1'
+    #       memory: 2G
+    
+    # Restart policy
+    restart: "no"  # Don't restart - one-shot execution
+    
+    # Working directory
+    working_dir: /workspace
+    
+    # User (matches base image)
+    user: vscode
+    
+    # Stdin/TTY (useful for debugging)
+    stdin_open: false
+    tty: false
+
+# Docker secrets configuration
+# Create secrets with: echo "sk-ant-your-key" | docker secret create anthropic_api_key -
+secrets:
+  anthropic_api_key:
+    external: true
+  # openai_api_key:
+  #   external: true
+
+# Volumes (if needed for persistent state)
+# volumes:
+#   workflow-outputs:
+#     driver: local
+
+# Networks (if custom networking needed)
+# networks:
+#   workflow-net:
+#     driver: bridge

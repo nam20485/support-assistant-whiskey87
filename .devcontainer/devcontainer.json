@@ -1,0 +1,30 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
+{
+	"name": "ai-new-app-template-devcontainer",
+	"image": "ghcr.io/nam20485/agents-prebuild:main-latest",
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [5000, 5001],
+	// "portsAttributes": {
+	//		"5001": {
+	//			"protocol": "https"
+	//		}
+	// }
+	// Mount GPG directory from host for commit signing (Option 1: Copy keys)
+	"mounts": [
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.gnupg,target=/home/vscode/.gnupg-host,type=bind,consistency=cached"
+	],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "sudo chmod +x .devcontainer/post-create.sh && .devcontainer/post-create.sh",
+	// "postStartCommand": "sudo chmod +x .workflow/prompt.sh && .workflow/prompt.sh opencode", // Configure tool-specific properties.
+	// "customizations": {},
+	// Set GPG_TTY for proper GPG agent communication
+	"remoteEnv": {
+		"GPG_TTY": "$(tty)"
+	},
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "vscode",
+	"containerUser": "vscode"
+}

@@ -1,0 +1,2 @@
+allowlist:
+  - "CANARY_SECRET = \"t_1234567890_abcdefghijklmnopqrstuvwxyz\""
