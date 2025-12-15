@@ -419,8 +419,6 @@ FodyWeavers.xsd
 
 gha-creds-*.json
 
-.gemini/
-
 # Docker validation artifacts
 docker/validation/logs/
 docker/validation/results.jsonl
